@@ -1,0 +1,35 @@
+﻿<Window x:Class="Calculator4_accessible.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calculator4_accessible"
+        mc:Ignorable="d"
+        Title="Calculator" SizeToContent="WidthAndHeight">
+    <Grid x:Name="mainGrid" Height="Auto" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label x:Name="lblFirstNum"  Content="Första värdet" Width="Auto" Height="Auto" FontSize="20" Margin="10,10,5,5"/>
+        <Label x:Name="lblSecondNum"  Content="Andra värdet" Grid.Column="1" Width="Auto" Height="Auto" FontSize="20" Margin="10,10,5,5"/>
+        <Label x:Name="lblResultat"  Content="Resultat" Grid.Column="2" Width="Auto" Height="Auto" FontSize="20" Margin="10,10,5,5"/>
+        <TextBox x:Name="txtFirstNum" Grid.Row="1" Text="" TextWrapping="Wrap"  AutomationProperties.LabeledBy="{Binding ElementName=lblFirstNum}" Width="Auto" Height="Auto" FontSize="15" Margin="10,10,5,5"/>
+        <TextBox x:Name="txtSecondNum" Grid.Row="1" Grid.Column="1" Text="" TextWrapping="Wrap" AutomationProperties.LabeledBy="{Binding ElementName=lblSecondNum}" Width="Auto" Height="Auto" FontSize="15" Margin="10,10,5,5"/>
+        
+        <Button x:Name="calcAdd" Content="Addera" Grid.Row="2" Height="20" Click="calcAdd_click" Width="Auto" FontSize="15" Margin="10,10,5,5"/>
+        <Button x:Name="calcSub" Content="Subtrahera" Grid.Row="2" Grid.Column="1" Width="Auto" Click="calcSub_click" Height="Auto" FontSize="15" Margin="10,10,5,5"/>
+        <Button x:Name="calcMul" Content="Multiplicera" Grid.Row="3" Width="Auto" Click="calcMul_click" Height="Auto" FontSize="15" Margin="10,10,5,5"/>
+        <Button x:Name="calcDiv" Content="Dividera" Grid.Row="3" Grid.Column="1" Width="Auto" Click="calcDiv_click" Height="Auto" FontSize="15" Margin="10,10,5,5"/>
+        <ListBox x:Name="lstResult" Grid.Row="1" Grid.RowSpan="4" Grid.Column="2" AutomationProperties.LabeledBy="{Binding ElementName=lblResultat}" Focusable="True" Width="Auto" Height="Auto" Margin="10,10,5,5"/>
+        <Label x:Name="lblErrMsg" Content="" Grid.Row="4" Grid.ColumnSpan="3" Visibility="Hidden" Width="Auto" Height="Auto" FontSize="30" Margin="10,10,5,5" Focusable="True" LostFocus="hideErrMsg"/>
+    </Grid>
+</Window>
