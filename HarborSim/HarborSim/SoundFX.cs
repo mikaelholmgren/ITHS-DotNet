@@ -9,7 +9,7 @@ namespace HarborSim
         private static MediaPlayer startSound = new MediaPlayer();
         private static MediaPlayer ambienceSound = new MediaPlayer();
         private static MediaPlayer hornSound = new MediaPlayer();
-        public static void Init()
+        static SoundFX()
         {
             startSound.Open(new Uri(@"Sounds/BoatHorn.mp3", UriKind.Relative));
             ambienceSound.Open(new Uri(@"Sounds/HarborAmbience.mp3", UriKind.Relative));

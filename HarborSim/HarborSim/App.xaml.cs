@@ -33,7 +33,7 @@ namespace HarborSim
 
         internal void InitialLoad()
         {
-            SoundFX.Init();
+
             if (!Harbor.LoadBoats()) HarborUtils.CreateRandomBoats(Harbor.NumRandomBoats); // Make sure we have something to show, either from file or random new ones
 
             SoundFX.PlayStartSound();
