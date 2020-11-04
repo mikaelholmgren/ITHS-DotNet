@@ -1,0 +1,91 @@
+﻿<Window x:Class="HarborSim.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HarborSim"
+        mc:Ignorable="d"
+        Title="Hamnen" Height="850" Width="800"
+        WindowState="Maximized"
+        SizeToContent="Manual">
+    <Grid x:Name="mainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="pnlStats" Margin="5" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <TextBlock x:Name="txtRBoats" Text="0" Margin="5"/>
+            <Label Padding="5" Content="Roddbåtar"/>
+            <TextBlock Margin="5" x:Name="txtPBoats" Text="0"/>
+            <Label Padding="5" Content="motorbåtar"/>
+            <TextBlock Margin="5" x:Name="txtSBoats" Text="0"/>
+            <Label Padding="5" Content="Segelbåtar"/>
+            <TextBlock Margin="5" x:Name="txtCatamaran" Text="0"/>
+            <Label Padding="5" Content="Katamaraner"/>
+            <TextBlock Margin="5" x:Name="txtCBoats" Text="0"/>
+            <Label Padding="5" Content="Lastfartyg"/>
+            <TextBlock Margin="5" x:Name="txtFree" Text="0"/>
+            <Label Padding="5" Content="Lediga platser"/>
+            <TextBlock Margin="5" x:Name="txtDenied" Text="0"/>
+            <Label Padding="5" Content="nekade båtar"/>
+            <Label Padding="5" Content="Total vikt"/>
+            <TextBlock Margin="5" x:Name="txtTotalWeight" Text="0"/>
+            <Label Padding="5" Content="Medel max hast (Km/tim)"/>
+            <TextBlock Margin="5" x:Name="txtAverageSpeed" Text="0"/>
+            <Label Padding="10" Content="Dag"/>
+            <TextBlock Margin="5" x:Name="txtDay" Text="0"/>
+        </StackPanel>
+        <Label Name="lblWf1" Content="Brygga 1" Grid.Row="1"/>
+        <Label Name="lblWf2" Grid.Column="1" Grid.Row="1" Content="Brygga 2"/>
+        <ListView x:Name="lvWarf1" Height="700" Margin="10" Grid.Row="2" Focusable="True" AutomationProperties.LabeledBy="{Binding ElementName=lblWf1}" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Platsnummer" Width="Auto" DisplayMemberBinding="{Binding WharfNumber}"/>
+                    <GridViewColumn Header="Båttyp" Width="Auto" DisplayMemberBinding="{Binding BoatType}"/>
+                    <GridViewColumn Header="ID" Width="Auto" DisplayMemberBinding="{Binding BoatId}"/>
+                    <GridViewColumn Header="Vikt" Width="Auto" DisplayMemberBinding="{Binding BoatWeight}"/>
+                    <GridViewColumn Header="MaxHast (KM/H)" Width="Auto" DisplayMemberBinding="{Binding BoatMaxSpeed}"/>
+                    <GridViewColumn Header="Övrigt" Width="Auto" DisplayMemberBinding="{Binding BoatUniqueProps}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="lvWarf2" Height="700" Margin="10" Grid.Row="2" Focusable="True" AutomationProperties.LabeledBy="{Binding ElementName=lblWf2}" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Platsnummer" Width="Auto" DisplayMemberBinding="{Binding WharfNumber}"/>
+                    <GridViewColumn Header="Båttyp" Width="Auto" DisplayMemberBinding="{Binding BoatType}"/>
+                    <GridViewColumn Header="ID" Width="Auto" DisplayMemberBinding="{Binding BoatId}"/>
+                    <GridViewColumn Header="Vikt" Width="Auto" DisplayMemberBinding="{Binding BoatWeight}"/>
+                    <GridViewColumn Header="MaxHast (KM/H)" Width="Auto" DisplayMemberBinding="{Binding BoatMaxSpeed}"/>
+                    <GridViewColumn Header="Övrigt" Width="Auto" DisplayMemberBinding="{Binding BoatUniqueProps}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Row="2" Grid.Column="2">
+            <WrapPanel Margin="5">
+                <TextBlock Name="txtBoatsDay" Margin="5" Text="{Binding ElementName=sldBoatsPerDay, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label>Nya båtar/dag</Label>
+            </WrapPanel>
+            <Slider x:Name="sldBoatsPerDay" Margin="5" Value="5" Minimum="5" Maximum="20" SmallChange="1" TickFrequency="5" TickPlacement="BottomRight" AutomationProperties.LabeledBy="{Binding ElementName=txtBoatsDay}" ValueChanged="sldBoatsPerDay_ValueChanged" IsSnapToTickEnabled="True"/>
+            <CheckBox x:Name="cbAutomaticTime" Margin="5" Content="Automatisk tid" Click="cbAutomaticTime_Click"/>
+            <Button x:Name="btnNextDay" Margin="5" Content="Nästa dag" Click="btnNextDay_Click"/>
+            <Button x:Name="btnTimeBetweenDays" Margin="5" Visibility="Collapsed" Click="btnTimeBetweenDays_Click"/>
+            <StackPanel x:Name="pnlDayAdjust" Margin="5" Visibility="Collapsed">
+                <WrapPanel Margin="5">
+                    <TextBlock Name="txtSecsDays" Margin="5" Text="{Binding ElementName=sldSecsDays, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label>Sekunder mellan dagar</Label>
+                </WrapPanel>
+                <Slider x:Name="sldSecsDays" Margin="5" Value="5" Minimum="5" Maximum="55" SmallChange="1" TickFrequency="10" TickPlacement="BottomRight" AutomationProperties.LabeledBy="{Binding ElementName=txtSecsDays}" IsSnapToTickEnabled="True"/>
+                <Button x:Name="btnApplyTimeBetweenDays" Margin="5" Click="btnApplyTimeBetweenDays_Click" Content="Använd"/>
+            </StackPanel>
+            <CheckBox x:Name="cbShowLog" Content="Visa logg" Margin="5" Click="cbShowLog_Click"/>
+            <TextBox x:Name="txtLog" Height="300" Width="400" Margin="5" Grid.Row="2" Grid.Column="2" IsReadOnly="True" IsReadOnlyCaretVisible="True" Visibility="Collapsed" TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto"/>
+        </StackPanel>
+    </Grid>
+</Window>
