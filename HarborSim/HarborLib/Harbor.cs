@@ -50,7 +50,7 @@ namespace HarborLib
             }
         }
 
-        static public void LogEvent(string text)
+        static private void LogEvent(string text)
         {
             if (EventLoggerAction != null)
             {
@@ -278,7 +278,7 @@ namespace HarborLib
             if (!loadedFromFile)
                 LogEvent($"Registering boat {b.Type} with ID {b.Identity}, wharfnumber {b.WharfNumber}, taking {b.NumPositions} slots");
         }
-        static public void BoatLeaving(Boat b)
+        static private void BoatLeaving(Boat b)
         {
             // This method will be set to each boat's delegate so it can call it when it is time to leave
             int wharfNum = b.WharfNumber;
