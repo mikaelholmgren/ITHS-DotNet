@@ -22,14 +22,9 @@ namespace HarborSim
         static private List<WharfItem> wf2 = new List<WharfItem>();
         public ObservableCollection<WharfItem> Src1 = new ObservableCollection<WharfItem>();
         public ObservableCollection<WharfItem> Src2 = new ObservableCollection<WharfItem>();
-        private bool running;
         public Action<HarborStats> UpdateUI { get; set; }
         private DispatcherTimer dayTimer = new DispatcherTimer();
         
-        void App_Startup(object sender, StartupEventArgs e)
-        {
-//            Task.Run(() => runLoop());
-        }
 
         internal void InitialLoad()
         {
