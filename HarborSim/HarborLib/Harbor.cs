@@ -266,39 +266,52 @@ namespace HarborLib
         static public void RegisterBoat(Boat b, bool loadedFromFile = false)
         {
             int wharfNum = b.WharfNumber;
+            string takeStr = "";
             var currentWharf = wharfNum > 32 ? wharf2 : wharf1;
             b.OnLeaving = BoatLeaving;
             for (int i = 0; i < b.NumPositions; i++)
             {
                 var point = currentWharf.Where(p => p.WharfNumber == (wharfNum + i)).FirstOrDefault();
                 point.Type = b.Type;
+                if (point.Boats.Count == 0) // We check so that this point doesn't contain a rowingboat
+                    takeStr = $", taking {b.NumPositions} slots";
+                
                 point.Boats.Add(b);
             }
             currentBoats.Add(b);
             if (!loadedFromFile)
-                LogEvent($"Registering boat {b.Type} with ID {b.Identity}, wharfnumber {b.WharfNumber}, taking {b.NumPositions} slots");
+                LogEvent($"Registering boat {b.Type} with ID {b.Identity}, wharfnumber {b.WharfNumber}{takeStr}");
         }
         static private void BoatLeaving(Boat b)
         {
             // This method will be set to each boat's delegate so it can call it when it is time to leave
             int wharfNum = b.WharfNumber;
+            string freeStr = "";
             var currentWharf = wharfNum > 32 ? wharf2 : wharf1;
             for (int i = 0; i < b.NumPositions; i++)
             {
                 var point = currentWharf.Where(p => p.WharfNumber == (wharfNum + i)).FirstOrDefault();
                 point.Boats.Remove(b);
                 if (b.Type != BoatType.RowingBoat)
+                {
                     point.Type = BoatType.None;
+                    freeStr = $", freeing {b.NumPositions} slots";
+                }
                 else
                 { // We might have another rowingboat here so check it
-                    if (point.Boats.Count == 0) point.Type = BoatType.None;
+                    if (point.Boats.Count == 0)
+                    {
+                        point.Type = BoatType.None;
+                        // and flag that we're actually freeing this slot, since this was the only rowingboat here
+                        freeStr = $", freeing {b.NumPositions} slots";
+                    }
                 }
 
             }
             // We need to use a separate deletelist since this is run during tick and we can't modify the list then.
 
             deleteList.Add(b);
-            LogEvent($"UnRegistering boat {b.Type} with ID {b.Identity}, wharfnumber {b.WharfNumber}, freeing {b.NumPositions} slots");
+            LogEvent($"UnRegistering boat {b.Type} with ID {b.Identity}, wharfnumber {b.WharfNumber}{freeStr}");
         }
     }
 }
