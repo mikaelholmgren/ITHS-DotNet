@@ -43,7 +43,7 @@
         </StackPanel>
         <Label Name="lblWf1" Content="Brygga 1" Grid.Row="1"/>
         <Label Name="lblWf2" Grid.Column="1" Grid.Row="1" Content="Brygga 2"/>
-        <ListView x:Name="lvWarf1" Height="700" Margin="10" Grid.Row="2" Focusable="True" AutomationProperties.LabeledBy="{Binding ElementName=lblWf1}" ScrollViewer.VerticalScrollBarVisibility="Visible">
+        <ListView x:Name="lvWarf1" Height="700" Width="450" Margin="10" Grid.Row="2" Focusable="True" AutomationProperties.LabeledBy="{Binding ElementName=lblWf1}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Platsnummer" Width="Auto" DisplayMemberBinding="{Binding WharfNumber}"/>
@@ -51,11 +51,11 @@
                     <GridViewColumn Header="ID" Width="Auto" DisplayMemberBinding="{Binding BoatId}"/>
                     <GridViewColumn Header="Vikt" Width="Auto" DisplayMemberBinding="{Binding BoatWeight}"/>
                     <GridViewColumn Header="MaxHast (KM/H)" Width="Auto" DisplayMemberBinding="{Binding BoatMaxSpeed}"/>
-                    <GridViewColumn Header="Övrigt" Width="Auto" DisplayMemberBinding="{Binding BoatUniqueProps}"/>
+                    <GridViewColumn Header="Övrigt" Width="Auto" DisplayMemberBinding="{Binding BoatUniqueProp}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="lvWarf2" Height="700" Margin="10" Grid.Row="2" Focusable="True" AutomationProperties.LabeledBy="{Binding ElementName=lblWf2}" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible">
+        <ListView x:Name="lvWarf2" Height="700" Width="450" Margin="10" Grid.Row="2" Focusable="True" AutomationProperties.LabeledBy="{Binding ElementName=lblWf2}" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Platsnummer" Width="Auto" DisplayMemberBinding="{Binding WharfNumber}"/>
@@ -63,7 +63,7 @@
                     <GridViewColumn Header="ID" Width="Auto" DisplayMemberBinding="{Binding BoatId}"/>
                     <GridViewColumn Header="Vikt" Width="Auto" DisplayMemberBinding="{Binding BoatWeight}"/>
                     <GridViewColumn Header="MaxHast (KM/H)" Width="Auto" DisplayMemberBinding="{Binding BoatMaxSpeed}"/>
-                    <GridViewColumn Header="Övrigt" Width="Auto" DisplayMemberBinding="{Binding BoatUniqueProps}"/>
+                    <GridViewColumn Header="Övrigt" Width="Auto" DisplayMemberBinding="{Binding BoatUniqueProp}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -85,7 +85,7 @@
                 <Button x:Name="btnApplyTimeBetweenDays" Margin="5" Click="btnApplyTimeBetweenDays_Click" Content="Använd"/>
             </StackPanel>
             <CheckBox x:Name="cbShowLog" Content="Visa logg" Margin="5" Click="cbShowLog_Click"/>
-            <TextBox x:Name="txtLog" Height="300" Width="400" Margin="5" Grid.Row="2" Grid.Column="2" IsReadOnly="True" IsReadOnlyCaretVisible="True" Visibility="Collapsed" TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto"/>
+            <TextBox x:Name="txtLog" Height="300" Width="300" Margin="5" Grid.Row="2" Grid.Column="2" IsReadOnly="True" IsReadOnlyCaretVisible="True" Visibility="Collapsed" TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto"/>
         </StackPanel>
     </Grid>
 </Window>
