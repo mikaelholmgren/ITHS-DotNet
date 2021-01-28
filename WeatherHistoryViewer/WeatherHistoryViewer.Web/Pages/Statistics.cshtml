@@ -1,0 +1,125 @@
+﻿@page
+@using WeatherHistoryViewer.Data.Models
+
+@model WeatherHistoryViewer.Web.Pages.StatisticsModel
+@{
+    ViewData["Title"] = "Väderstatistik";
+}
+<div class="text-center">
+    <h1 class="display-4">Visa väderstatistik</h1>
+    <p>På denna sida visas statistik.</p>
+</div>
+<div class="LocationButtons">
+    <span><b> Visa:</b> </span>
+    <span class="locationlink"><a asp-page="/statistics" asp-route-location="@Locations.Indoor">Inomhus</a></span>
+    <span class="locationlink"><a asp-page="/statistics" asp-route-location="@Locations.Outdoor">Utomhus</a></span>
+</div>
+@if (Model.Location == Locations.Indoor)
+{
+    <div class="result">
+        <h2>Inomhus</h2>
+        <p>Visar @Model.FirstDisplayed till @Model.LastDisplayed av @Model.TotalEntries</p>
+        <table class="table">
+            <thead>
+            <th><a class="@(Model.SortBy == SortColumns.Date ? "active" : null)" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@SortColumns.Date" asp-route-SortDir="@Model.GetSortDirection(SortColumns.Date)" aria-current="@(Model.SortBy == SortColumns.Date ? "true" : null)">Datum</a></th>
+            <th><a class="@(Model.SortBy == SortColumns.Temperature ? "active" : null)" aria-current="@(Model.SortBy == SortColumns.Temperature ? "true" : null)" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@SortColumns.Temperature" asp-route-SortDir="@Model.GetSortDirection(SortColumns.Temperature)">Temperatur</a></th>
+            <th><a class="@(Model.SortBy == SortColumns.Humidity ? "active" : null)" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@SortColumns.Humidity" asp-route-SortDir="@Model.GetSortDirection(SortColumns.Humidity)" aria-current="@(Model.SortBy == SortColumns.Humidity ? "true" : null)">Luftfuktighet</a></th>
+            <th><a class="@(Model.SortBy == SortColumns.MoldRisk ? "active" : null)" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@SortColumns.MoldRisk" asp-route-SortDir="@Model.GetSortDirection(SortColumns.MoldRisk)" aria-current="@(Model.SortBy == SortColumns.MoldRisk ? "true" : null)">Mögelrisk</a></th>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.Data)
+                {
+                    double curentMoldRisk = Math.Round(row.AverageMoldPercentage, 1);
+                    <tr>
+                        <td>@row.Date.ToShortDateString()</td>
+                        <td>@Math.Round(row.AverageTemperature, 1) grader</td>
+                        <td>@Math.Round(row.AverageHumidity, 1)%</td>
+                        <td>@curentMoldRisk%</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else if (Model.Location == Locations.Outdoor)
+{
+<div class="result">
+    <h2>Utomhus</h2>
+    <p>Visar @Model.FirstDisplayed till @Model.LastDisplayed av @Model.TotalEntries</p>
+    <table class="table">
+        <thead>
+        <th><a class="@(Model.SortBy == SortColumns.Date ? "active" : null)" aria-current="@(Model.SortBy == SortColumns.Date ? "true" : null)" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@SortColumns.Date" asp-route-SortDir="@Model.GetSortDirection(SortColumns.Date)">Datum</a></th>
+        <th><a class="@(Model.SortBy == SortColumns.Temperature ? "active" : null)" aria-current="@(Model.SortBy == SortColumns.Temperature ? "true" : null)" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@SortColumns.Temperature" asp-route-SortDir="@Model.GetSortDirection(SortColumns.Temperature)">Temperatur</a></th>
+        <th><a class="@(Model.SortBy == SortColumns.Humidity ? "active" : null)" Aria-current="@(Model.SortBy == SortColumns.Humidity ? "true" : null)" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@SortColumns.Humidity" asp-route-SortDir="@Model.GetSortDirection(SortColumns.Humidity)">Luftfuktighet</a></th>
+        <th><a class="@(Model.SortBy == SortColumns.MoldRisk ? "active" : null)" aria-current="@(Model.SortBy == SortColumns.MoldRisk ? "true" : null)" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@SortColumns.MoldRisk" asp-route-SortDir="@Model.GetSortDirection(SortColumns.MoldRisk)">Mögelrisk</a></th>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Data)
+            {
+                double curentMoldRisk = Math.Round(row.AverageMoldPercentage, 1);
+                <tr>
+                    <td>@row.Date.ToShortDateString()</td>
+                    <td>@Math.Round(row.AverageTemperature, 1) grader</td>
+                    <td>@Math.Round(row.AverageHumidity, 1)%</td>
+                    <td>@curentMoldRisk%</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+}
+
+else
+{
+    <p>Välj en plats att visa statistik för ovan.</p>
+}
+@if (Model.Location != null)
+{
+    <nav aria-label="Pagination">
+        <ul class="pagination">
+            @if (Model.PageIndex == 1)
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Föregående</span>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@Model.SortBy" asp-route-SortDir="@Model.SortDir" asp-route-PageIndex="@(Model.PageIndex -1)" >Föregående</a>
+                </li>
+
+            }
+            @for (int i = 1; i <= Model.NumPages; i++)
+            {
+                if (i == Model.PageIndex)
+                {
+                    <li class="page-item active">
+                        <span class="page-link">
+                            @Model.PageIndex
+                            <span class="sr-only">(current)</span>
+                        </span>
+                    </li>
+
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@Model.SortBy" asp-route-SortDir="@Model.SortDir" asp-route-PageIndex="@i">@i</a></li>
+                }
+            }
+            @if (Model.PageIndex == Model.NumPages)
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Nästa</span>
+                </li>
+            }
+            else
+            {
+            <li class="page-item">
+                <a class="page-link" asp-page="/Statistics" asp-route-Location="@Model.Location" asp-route-SortBy="@Model.SortBy" asp-route-SortDir="@Model.SortDir" asp-route-PageIndex="@(Model.PageIndex +1)">Nästa</a>
+            </li>
+            }
+        </ul>
+    </nav>
+}

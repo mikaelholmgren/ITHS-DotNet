@@ -1,0 +1,41 @@
+﻿@page
+@using WeatherHistoryViewer.Data.Models
+
+@model WeatherHistoryViewer.Web.Pages.AvgTempModel
+@{
+    ViewData["Title"] = "Medeltemperatur för datum";
+}
+<div class="content">
+    <h1 class="display-4">Visa medeltemperatur</h1>
+    <form method="post">
+        <div class="row">
+            <label for="selectedLocation">Välj plats:</label>
+            <select asp-for="SelectedLocation" asp-items="Html.GetEnumSelectList<Locations>()"></select>
+        </div>
+        <div class="row">
+            <label for="selectedDate">Välj datum:</label>
+            @*<input name="selectedDate" type="date" min="@Model.FirstDate" max="@Model.LastDate" asp-for="SelectedDate" />*@
+            <select asp-for="SelectedDate" asp-items="Model.ValidDates"></select>
+        </div>
+        <div class="row">
+            <button type="submit">Visa resultat</button>
+        </div>
+    </form>
+    <div id="result">
+        @if (Model.SelectedDate == null)
+        {
+            <p>Välj ett datum att visa ovan.</p>
+        }
+        else
+        {
+            if (Model.AvgForDate != null)
+            {
+                <p>Medeltemperaturen @Html.DisplayFor(d => d.SelectedLocation) den @Model.SelectedDate.Value.ToShortDateString() är @Model.AvgForDate.Value grader</p>
+            }
+            else
+            {
+                <p>Inga data finns för valt datum!</p>
+            }
+        }
+    </div>
+</div>

@@ -1,0 +1,19 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Startsida";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Välkommen till väderhistorikern!</h1>
+    <p>Vi har data med vissa luckor från @Model.Sumary.FromDate.ToShortDateString(), och fram till @Model.Sumary.ToDate.ToShortDateString() (totalt @Model.Sumary.DayCount dagar).</p>
+    <p>Hösten började @Model.Sumary.AutumnDate.Value.ToLongDateString()</p>
+    @if (Model.Sumary.WinterDate == null)
+    {
+        <p>Vintern tycks ha varit mild, dvs att dagsmedeltemperaturen inte understeg 0 grader fem dagar i streck.</p>
+    }
+    else
+    {
+        <p>Vintern började @Model.Sumary.WinterDate.Value.ToLongDateString()</p>
+    }
+</div>

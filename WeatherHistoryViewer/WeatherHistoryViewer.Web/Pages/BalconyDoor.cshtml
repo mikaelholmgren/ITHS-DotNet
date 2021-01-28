@@ -1,0 +1,26 @@
+﻿@page
+@model WeatherHistoryViewer.Web.Pages.BalconyDoorModel
+@{
+    ViewData["Title"] = "Balkongdörr statistik";
+}
+<div class="text-center">
+    <h1 class="display-4">Visa balkongdörrstatistik</h1>
+    <p>På denna sida visas antaganden över balkongdörrens öppet-tider.</p>
+</div>
+<div class="container">
+    <table class="table">
+        <thead>
+            <th>Datum</th>
+            <th>Tid öppen</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.BalconyDoorEntries)
+            {
+                <tr>
+                    <td>@item.Date.ToShortDateString()</td>
+                    <td>@item.Time.ToString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
